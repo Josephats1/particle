@@ -52,3 +52,22 @@ function animate() {
 
 initParticles();
 animate();
+
+// Adjust canvas size on window resize
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+document.getElementById("contactForm").addEventListener("submit", function(event) {
+    event.preventDefault();  // Prevent page reload on form submission
+    
+    // Display success message
+    document.getElementById("successMessage").style.display = "block";
+    
+    // Optionally, hide the form
+    document.getElementById("contactForm").style.display = "none";
+    
+    // Optionally, reset the form fields
+    document.getElementById("contactForm").reset();
+});

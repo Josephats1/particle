@@ -44,13 +44,17 @@ h2 {
 /* Navbar */
 .navbar ul {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Centers the items horizontally */
     list-style: none;
     padding: 0;
+    margin: 0;
+}
+
+.navbar li {
+    margin: 0 15px; /* Space between the items */
 }
 
 .navbar a {
-    margin: 0 15px;
     text-decoration: none;
     color: white;
     transition: color 0.3s, text-shadow 0.3s;
@@ -59,6 +63,17 @@ h2 {
 .navbar a:hover {
     color: cyan;
     text-shadow: 0 0 10px cyan, 0 0 20px cyan;
+}
+
+/* For smaller screens, ensure horizontal alignment */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-wrap: nowrap; /* Prevents wrapping of items */
+    }
+
+    .navbar li {
+        margin: 0 10px; /* Adjust spacing for smaller screens */
+    }
 }
 
 /* About Section */
@@ -85,29 +100,22 @@ h2 {
     border-radius: 50%;
     box-shadow: 0 0 20px cyan;
 }
-/* Default styling for the image */
+
+/* Responsive Image in About Section */
 .image-container img {
-    width: 100%; /* Ensures it fits well */
-    max-width: 600px; /* Keeps it proportional */
+    width: 100%;
+    max-width: 600px;
     display: block;
     margin: 0 auto;
     position: relative;
-    transition: all 0.3s ease; /* Smooth effect */
+    transition: all 0.3s ease;
 }
 
-/* Move image up for smaller screens */
-@media screen and (max-width: 768px) {
-    .image-container img {
-        transform: translateY(-50px); /* Moves the image up */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column-reverse; /* Stack image above text */
     }
 }
-
-@media screen and (max-width: 480px) {
-    .image-container img {
-        transform: translateY(-80px); /* Moves further up for very small screens */
-    }
-}
-
 
 /* Projects Section */
 .projects {
@@ -176,21 +184,66 @@ input:focus + label, textarea:focus + label, input:not(:placeholder-shown) + lab
     font-size: 0.8rem;
     color: cyan;
 }
-
-button.send-btn {
-    padding: 10px;
-    background: cyan;
-    color: black;
-    border: none;
-    cursor: pointer;
+/* Glowing Button Styles */
+.glowing-btn {
+    padding: 10px 20px;  /* Adjust padding for size */
+    font-size: 1rem;
     font-weight: bold;
-    box-shadow: 0 0 10px cyan;
-    transition: background 0.3s;
+    text-transform: uppercase;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    color: #fff;
+    background: linear-gradient(45deg, #ff00ff, #00d4ff);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: auto;  /* Ensures the button resizes based on content */
+    max-width: 200px;  /* Limits the max length of the button */
+    text-align: center;  /* Ensure text is centered */
 }
 
-button.send-btn:hover {
-    background: magenta;
-    box-shadow: 0 0 15px magenta;
+.glowing-btn .glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    background: linear-gradient(45deg, #ff00ff, #00d4ff);
+    border-radius: 50%;
+    transition: all 0.1s ease;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;  /* Push glow behind text */
+}
+
+.glowing-btn:hover .glow {
+    opacity: 1;
+}
+
+.glowing-btn:active {
+    transform: scale(0.95);
+}
+
+/* Glowing Effect on Hover */
+.glowing-btn:hover {
+    animation: glowing 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+    }
+    100% {
+        box-shadow: 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+    }
+}
+
+/* Ensure text remains visible on hover */
+.glowing-btn span {
+    position: relative;
+    z-index: 1;  /* Ensure text stays above the glow */
 }
 
 /* Footer */
@@ -199,7 +252,6 @@ footer {
     padding: 20px;
     color: white;
 }
-
 .social-icons {
     display: flex;
     justify-content: center;
@@ -216,24 +268,19 @@ footer {
     font-size: 1.5rem;
     border-radius: 50%;
     color: white;
-    background-color: #444;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Apply the blur effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     transition: all 0.3s ease;
     text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Light border */
 }
 
-.social-icons {
-    text-align: center;
-    margin-top: 20px;
+.social-btn:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
 }
 
-.social-btn {
-    display: inline-block;
-    margin: 0 10px;
-    font-size: 2rem;
-    color: #fff;
-    transition: all 0.3s ease;
-}
-
+/* Color effects on hover */
 .social-btn.facebook:hover {
     text-shadow: 0 0 10px #4267B2;
     color: #4267B2; /* Facebook blue */
@@ -259,6 +306,20 @@ footer {
     color: #25D366; /* WhatsApp green */
 }
 
+/* Media Query for Small Screens */
+@media (max-width: 768px) {
+    .social-icons {
+        justify-content: space-around;
+    }
+
+    .social-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Canvas for Particles */
 canvas#particles {
     position: fixed;
     top: 0;
@@ -268,11 +329,15 @@ canvas#particles {
     z-index: -1; /* Push behind content */
 }
 
-h2 {
-    text-align: center;
-    font-size: 2rem;
-    color: cyan;
-    text-shadow: 0 0 10px cyan, 0 0 20px cyan;
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
 }
-
-/* Other styles remain the same from earlier */
+#successMessage {
+    font-size: 1.2rem;
+    background: rgba(0, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px cyan;
+    color: cyan;
+}
